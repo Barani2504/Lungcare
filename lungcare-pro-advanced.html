@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LungCare Pro - Comprehensive Smoking Impact Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196F3;
+            --light: #f5f7fa;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Page Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ============ HOME PAGE ============ */
+        .hero {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,247,250,0.95) 100%);
+            border-radius: 30px;
+            padding: 80px 60px;
+            text-align: center;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            animation: slideIn 0.6s ease-out;
+            border-top: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .stat-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.05em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-card i {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* ============ CALCULATOR PAGE ============ */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .form-card h2 {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #333;
+            font-size: 1.05em;
+        }
+
+        .form-group small {
+            display: block;
+            color: #999;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1em;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: rgba(102, 126, 234, 0.02);
+        }
+
+        .input-unit {
+            position: absolute;
+            right: 20px;
+            color: var(--primary);
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        .slider-group {
+            margin: 30px 0;
+        }
+
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: var(--transition);
+        }
+
+        .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .slider-value {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            margin-top: 20px;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .calc-btn:active {
+            transform: translateY(0);
+        }
+
+        .info-panel {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .info-panel h3 {
+            color: var(--primary);
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+
+        .info-box h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        /* ============ RESULTS PAGE ============ */
+        .results-container {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .results-header h2 {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .result-metric {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            border-top: 4px solid var(--primary);
+            transition: var(--transition);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .result-metric:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 2.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .result-description {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-top: 12px;
+            font-size: 0.9em;
+        }
+
+        .risk-low {
+            background: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+        }
+
+        .risk-medium {
+            background: rgba(255, 152, 0, 0.2);
+            color: #e65100;
+        }
+
+        .risk-high {
+            background: rgba(244, 67, 54, 0.2);
+            color: #c62828;
+        }
+
+        .risk-critical {
+            background: rgba(183, 28, 28, 0.2);
+            color: #b71c1c;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .chart-container h3 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+
+        /* ============ HEALTH INFO PAGE ============ */
+        .info-sections {
+            display: grid;
+            gap: 30px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .section-card h2 {
+            color: var(--primary);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-card h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .threshold-list {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .threshold-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .threshold-item:last-child {
+            border-bottom: none;
+        }
+
+        .threshold-icon {
+            font-size: 1.5em;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .threshold-content h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .threshold-content p {
+            color: #666;
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        /* ============ TIPS PAGE ============ */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .tip-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: 800;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .tip-card h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .tip-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+
+        /* ============ TIMELINE PAGE ============ */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        .timeline-items {
+            display: grid;
+            gap: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: auto;
+            width: calc(50% - 30px);
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
+            width: calc(50% - 30px);
+            text-align: left;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 4px solid white;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .timeline-time {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            color: #333;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 1024px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px;
+                margin-right: 0;
+                text-align: left;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .calculator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+            }
+
+            .hero {
+                padding: 50px 30px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .form-card,
+            .info-panel {
+                padding: 30px;
+            }
+
+            .results-container {
+                padding: 30px;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo" onclick="navigateTo('home')">
+                <i class="fas fa-lungs"></i>
+                LungCare Pro
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a class="nav-link active" data-page="home" onclick="navigateTo('home'); return false;">Home</a></li>
+                <li class="nav-item"><a class="nav-link" data-page="calculator" onclick="navigateTo('calculator'); return false;">Calculator</a></li>
+                <li class="nav-item"><a class="nav-link" data-page="health" onclick="navigateTo('health'); return false;">Health Info</a></li>
+                <li class="nav-item"><a class="nav-link" data-page="tips" onclick="navigateTo('tips'); return false;">Quit Tips</a></li>
+                <li class="nav-item"><a class="nav-link" data-page="timeline" onclick="navigateTo('timeline'); return false;">Recovery</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- HOME PAGE -->
+        <div class="page active" id="home">
+            <div class="hero">
+                <h1><i class="fas fa-heart-pulse"></i> Take Control of Your Lung Health</h1>
+                <p>Understand your smoking impact, learn the facts, and discover your path to recovery</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="navigateTo('calculator')">Start Assessment <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn btn-secondary" onclick="navigateTo('health')">Learn More <i class="fas fa-book"></i></button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-cigarette"></i></div>
+                    <div class="stat-number">1.3B</div>
+                    <div class="stat-label">Global Smokers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-number">8M</div>
+                    <div class="stat-label">Annual Deaths</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-number">68M</div>
+                    <div class="stat-label">Successful Quitters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">50%</div>
+                    <div class="stat-label">Recovery Possible</div>
+                </div>
+            </div>
+
+            <h2 style="text-align: center; color: white; font-size: 2.3em; margin-bottom: 50px;">Why Choose LungCare Pro?</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Advanced Calculator</h3>
+                    <p>Get precise assessments of your lung damage using scientifically-validated algorithms and medical research.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-book-medical"></i>
+                    <h3>Evidence-Based Information</h3>
+                    <p>Learn from peer-reviewed research and expert medical guidance about smoking's impact on your lungs.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-route"></i>
+                    <h3>Recovery Roadmap</h3>
+                    <p>Follow a detailed timeline showing how your body heals after quitting smoking, with real health improvements.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Practical Strategies</h3>
+                    <p>Get 12+ evidence-based tips and strategies proven effective for quitting smoking successfully.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your health information anytime, anywhere with our fully responsive design.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lock"></i>
+                    <h3>Privacy Focused</h3>
+                    <p>Your data stays with you. We don't store or share any personal health information.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALCULATOR PAGE -->
+        <div class="page" id="calculator">
+            <div class="calculator-wrapper">
+                <div class="form-card">
+                    <h2><i class="fas fa-calculator"></i> Assessment Form</h2>
+
+                    <div class="form-group">
+                        <label for="cigarettesPerDay">Cigarettes per Day</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="cigarettesPerDay" min="1" max="100" placeholder="10" value="10">
+                            <span class="input-unit">cigs</span>
+                        </div>
+                        <small>How many cigarettes do you smoke daily?</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Adjust: <span id="cigDisplayValue">10</span> cigarettes/day</label>
+                        <div class="slider-group">
+                            <input type="range" id="cigSlider" min="1" max="100" value="10">
+                            <div class="slider-value"><span>1</span><span>100</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="yearsSmoked">Years of Smoking</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="yearsSmoked" min="0.1" max="80" step="0.1" placeholder="5" value="5">
+                            <span class="input-unit">yrs</span>
+                        </div>
+                        <small>How long have you been smoking?</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Adjust: <span id="yearDisplayValue">5</span> years</label>
+                        <div class="slider-group">
+                            <input type="range" id="yearSlider" min="0.1" max="80" step="0.1" value="5">
+                            <div class="slider-value"><span>0.1</span><span>80</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Current Age</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="age" min="10" max="100" placeholder="35" value="35">
+                            <span class="input-unit">yrs</span>
+                        </div>
+                        <small>Your current age in years</small>
+                    </div>
+
+                    <button class="calc-btn" onclick="calculateImpact()">
+                        <i class="fas fa-calculator"></i> Calculate My Impact
+                    </button>
+                </div>
+
+                <div class="info-panel">
+                    <h3><i class="fas fa-info-circle"></i> Understanding the Metrics</h3>
+
+                    <div class="info-box">
+                        <h4>Pack-Year</h4>
+                        <p>A standard measure where 1 pack-year = 20 cigarettes/day for 1 year. Calculated as: (Cigs per day ÷ 20) × Years smoked</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>FEV1</h4>
+                        <p>Forced Expiratory Volume in 1 second. Shows how much air you can forcefully breathe out. Smoking reduces this crucial measure.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>Risk Thresholds</h4>
+                        <p><strong>10+ pack-years:</strong> COPD risk begins<br><strong>20+ pack-years:</strong> Cancer screening recommended<br><strong>30+ pack-years:</strong> High disease risk</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>Key Facts</h4>
+                        <p>Each pack-year reduces FEV1 by ~50mL. Current smokers have ~51mL lower FEV1 vs non-smokers. Heavy smokers (30+ pack-years) lose 100-150mL.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS PAGE -->
+        <div class="page" id="results" class="hidden">
+            <div class="results-container">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-pie"></i> Your Health Assessment Results</h2>
+                    <p>Based on your smoking history and health data</p>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-boxes"></i> Pack-Years Smoked</div>
+                        <div class="result-value" id="resultPackYears">--</div>
+                        <div class="result-description" id="resultPackYearsDesc">Cumulative smoking exposure</div>
+                        <span class="risk-badge risk-medium" id="packYearsBadge">--</span>
+                    </div>
+
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-circle"></i> Total Cigarettes</div>
+                        <div class="result-value" id="resultTotalCigs">--</div>
+                        <div class="result-description" id="resultTotalCigsDesc">Total cigarettes consumed</div>
+                    </div>
+
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-arrow-down"></i> FEV1 Loss</div>
+                        <div class="result-value" id="resultFEV1">--</div>
+                        <div class="result-description" id="resultFEV1Desc">Estimated lung capacity loss</div>
+                    </div>
+
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-warning"></i> COPD Risk</div>
+                        <div class="result-value" id="resultCOPDLevel">--</div>
+                        <div class="result-description" id="resultCOPDDesc">Chronic Obstructive Pulmonary Disease</div>
+                        <span class="risk-badge" id="copdBadge">--</span>
+                    </div>
+
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-lungs"></i> Cancer Risk</div>
+                        <div class="result-value" id="resultCancerLevel">--</div>
+                        <div class="result-description" id="resultCancerDesc">Relative to non-smokers</div>
+                        <span class="risk-badge" id="cancerBadge">--</span>
+                    </div>
+
+                    <div class="result-metric">
+                        <div class="result-label"><i class="fas fa-heart"></i> Health Impact</div>
+                        <div class="result-value" id="resultHealthScore">--</div>
+                        <div class="result-description" id="resultHealthDesc">Overall health condition</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 40px 0;">
+                    <button class="btn btn-primary" onclick="navigateTo('tips')" style="margin-right: 15px;">
+                        <i class="fas fa-lightbulb"></i> See Quit Strategies
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigateTo('timeline')">
+                        <i class="fas fa-hourglass-start"></i> View Recovery Timeline
+                    </button>
+                </div>
+
+                <div class="chart-container">
+                    <h3><i class="fas fa-chart-bar"></i> Risk Comparison</h3>
+                    <div id="riskChart" style="text-align: center; padding: 30px;">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HEALTH INFO PAGE -->
+        <div class="page" id="health">
+            <div class="info-sections">
+                <div class="section-card">
+                    <h2><i class="fas fa-stethoscope"></i> How Smoking Damages Your Lungs</h2>
+                    <p>When you smoke, thousands of chemicals enter your lungs. These harmful substances cause immediate and long-term damage to your respiratory system and overall health.</p>
+
+                    <h3>Immediate Effects (Minutes to Hours)</h3>
+                    <p>Smoking immediately reduces oxygen levels in your blood and increases carbon monoxide. Your heart rate jumps, blood vessels constrict, and inflammation begins in your airway.</p>
+
+                    <h3>Short-term Effects (Weeks to Months)</h3>
+                    <p>Chronic inflammation damages the lung tissue, destroying cilia (tiny hair-like structures that clean lungs). Mucus accumulates, causing that familiar "smoker's cough."</p>
+
+                    <h3>Long-term Effects (Years)</h3>
+                    <p>Repeated exposure causes scarring of lung tissue, emphysema (destruction of air sacs), and chronic bronchitis. FEV1 (lung function) declines steadily, reducing your ability to breathe.</p>
+                </div>
+
+                <div class="section-card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Critical Health Thresholds</h2>
+                    <div class="threshold-list">
+                        <div class="threshold-item">
+                            <div class="threshold-icon"><i class="fas fa-flag" style="color: #4caf50;"></i></div>
+                            <div class="threshold-content">
+                                <h4>Less than 10 Pack-Years</h4>
+                                <p>Lower but still elevated disease risk. Lung damage is accumulating. Quit now to minimize permanent damage.</p>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item">
+                            <div class="threshold-icon"><i class="fas fa-flag" style="color: #ff9800;"></i></div>
+                            <div class="threshold-content">
+                                <h4>10-20 Pack-Years</h4>
+                                <p>COPD risk becomes significant. Regular medical check-ups recommended. Screening for other smoking-related diseases advised.</p>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item">
+                            <div class="threshold-icon"><i class="fas fa-flag" style="color: #f44336;"></i></div>
+                            <div class="threshold-content">
+                                <h4>20-30 Pack-Years</h4>
+                                <p>High risk for lung cancer and COPD. Lung cancer screening strongly recommended. Immediate medical consultation needed.</p>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item">
+                            <div class="threshold-icon"><i class="fas fa-exclamation-circle" style="color: #b71c1c;"></i></div>
+                            <div class="threshold-content">
+                                <h4>Over 30 Pack-Years</h4>
+                                <p>Very high disease risk. Urgent medical consultation necessary. Comprehensive screening for multiple smoking-related conditions required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2><i class="fas fa-heartbeat"></i> Smoking-Related Diseases</h2>
+
+                    <h3>Chronic Obstructive Pulmonary Disease (COPD)</h3>
+                    <p>Combination of emphysema and chronic bronchitis. Causes progressive airway obstruction, difficulty breathing, and increased respiratory infections. Affects millions worldwide, with smoking as the primary cause.</p>
+
+                    <h3>Lung Cancer</h3>
+                    <p>Smokers are 15-30 times more likely to develop lung cancer than non-smokers. Risk increases significantly with pack-years, especially beyond 20 pack-years.</p>
+
+                    <h3>Heart Disease & Stroke</h3>
+                    <p>Smoking damages blood vessels and increases blood pressure. Even light smoking significantly increases risk of heart attack and stroke.</p>
+
+                    <h3>Other Respiratory Infections</h3>
+                    <p>Damaged lungs are more susceptible to pneumonia, bronchitis, and other infections. Smokers take longer to recover from respiratory illnesses.</p>
+                </div>
+
+                <div class="section-card">
+                    <h2><i class="fas fa-dna"></i> Why Smoking is So Damaging</h2>
+                    <p>Cigarette smoke contains over 7,000 chemicals, including:</p>
+                    <ul style="margin-left: 30px; color: #666;">
+                        <li><strong>Tar:</strong> Coats lungs, reduces oxygen absorption, causes cancer</li>
+                        <li><strong>Nicotine:</strong> Highly addictive, increases heart rate and blood pressure</li>
+                        <li><strong>Carbon Monoxide:</strong> Replaces oxygen in blood, starves organs</li>
+                        <li><strong>Ammonia:</strong> Damages airway linings, increases mucus</li>
+                        <li><strong>Formaldehyde:</strong> Known carcinogen, damages DNA</li>
+                        <li><strong>Heavy Metals:</strong> Polonium, lead, arsenic accumulate in lungs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPS PAGE -->
+        <div class="page" id="tips">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="color: white; font-size: 2.5em;"><i class="fas fa-lightbulb"></i> 12 Evidence-Based Strategies to Quit Smoking</h2>
+                <p style="color: rgba(255,255,255,0.9); font-size: 1.2em; margin-top: 15px;">Proven techniques to help you succeed</p>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <h3>Set a Quit Date</h3>
+                    <p>Choose a date within the next 7 days. Mark it on your calendar and tell family and friends. Preparation and commitment increase success rates by 60%.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <h3>Identify Your Triggers</h3>
+                    <p>Notice when you smoke most: after meals, with coffee, during stress? Write them down. Plan specific alternative activities for each trigger moment.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <h3>Stay Physically Active</h3>
+                    <p>Exercise reduces cravings, improves mood, and burns extra energy. Even a 10-minute walk can diminish the urge to smoke. Aim for 30 minutes daily.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <h3>Stay Hydrated</h3>
+                    <p>Drink plenty of water and herbal tea. It helps flush toxins, keeps your mouth busy during cravings, and supports your body's healing process.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <h3>Seek Support</h3>
+                    <p>Tell friends and family. Join online or local support groups. Call 1-800-QUIT-NOW for free coaching. Having accountability partners triples success rates.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <h3>Use the 4 D's</h3>
+                    <p><strong>Delay</strong> 10 minutes, <strong>Deep breathe</strong>, <strong>Drink water</strong>, <strong>Do something else</strong>. Most cravings last only 5-10 minutes.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">7</div>
+                    <h3>Try Nicotine Replacement</h3>
+                    <p>Patches, gum, lozenges, or prescription medications can ease withdrawal symptoms. Talk to your doctor about options. NRT doubles quit success rates.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">8</div>
+                    <h3>Track Your Savings</h3>
+                    <p>Calculate money saved by not buying cigarettes. Average pack costs $6-8. That's $2,000+ yearly! Reward yourself with that money for milestones.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">9</div>
+                    <h3>Eat Antioxidant Foods</h3>
+                    <p>Berries, citrus, leafy greens, nuts, and sweet potatoes are rich in antioxidants. They repair lung tissue damage and reduce inflammation naturally.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">10</div>
+                    <h3>Practice Deep Breathing</h3>
+                    <p>Breathing exercises reduce stress, improve lung capacity, and manage cravings. Try 5 deep breaths every hour. Oxygen clears your mind instantly.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">11</div>
+                    <h3>Change Your Routine</h3>
+                    <p>Break associations with smoking. Take a different route, change coffee spots, sit in non-smoking areas. New routines prevent automatic triggers.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">12</div>
+                    <h3>Don't Give Up on Giving Up</h3>
+                    <p>Most successful quitters try multiple times before quitting permanently. If you slip, learn from it and immediately restart. Every attempt counts!</p>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.1);">
+                <h2 style="color: var(--primary); margin-bottom: 20px;"><i class="fas fa-star"></i> You Can Do This!</h2>
+                <p style="font-size: 1.15em; color: #666; margin-bottom: 20px; line-height: 1.8;">Millions of smokers have successfully quit. Your mind is powerful. Your body wants to heal. Your future is worth it. Start today, one moment at a time.</p>
+                <p style="color: #999; font-weight: 600;"><i class="fas fa-phone"></i> Free Support: 1-800-QUIT-NOW (1-800-784-8669)</p>
+            </div>
+        </div>
+
+        <!-- TIMELINE PAGE -->
+        <div class="page" id="timeline">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="color: white; font-size: 2.5em;"><i class="fas fa-hourglass-start"></i> Your Recovery Timeline After Quitting</h2>
+                <p style="color: rgba(255,255,255,0.9); font-size: 1.2em; margin-top: 15px;">Your body starts healing the moment you stop smoking</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-items">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-hourglass-start"></i> 20 Minutes</div>
+                            <div class="timeline-title">Immediate Recovery Begins</div>
+                            <div class="timeline-description">Your heart rate and blood pressure drop to normal levels. Circulation begins improving. Your body starts detoxifying immediately.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-hourglass-half"></i> 12 Hours</div>
+                            <div class="timeline-title">Carbon Monoxide Clears</div>
+                            <div class="timeline-description">Carbon monoxide levels in your blood return to normal. Oxygen levels increase. Your lungs begin clearing accumulated toxins.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-calendar-days"></i> 2-3 Weeks</div>
+                            <div class="timeline-title">Circulation & Lung Function Improve</div>
+                            <div class="timeline-description">Blood circulation significantly improves. Lung function increases by up to 30%. You may notice easier breathing and more energy.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-calendar-week"></i> 1-3 Months</div>
+                            <div class="timeline-title">Major Health Improvements</div>
+                            <div class="timeline-description">Coughing and shortness of breath decrease significantly. Lung function improves further. Circulation improves noticeably. You feel stronger.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-calendar-alt"></i> 6-9 Months</div>
+                            <div class="timeline-title">Respiratory Recovery Accelerates</div>
+                            <div class="timeline-description">Respiratory symptoms continue improving. Lung function increases by up to 10% compared to when you smoked. Coughing episodes become rare.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-calendar"></i> 1 Year</div>
+                            <div class="timeline-title">Heart Disease Risk Drops 50%</div>
+                            <div class="timeline-description">Risk of heart disease, heart attack, and stroke drops dramatically. Nicotine dependency is largely overcome. Energy levels significantly improve.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-trophy"></i> 5 Years</div>
+                            <div class="timeline-title">Stroke Risk Equals Non-Smokers</div>
+                            <div class="timeline-description">Stroke risk returns to that of someone who never smoked. Lung cancer risk begins declining. Circulation is nearly normalized.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-crown"></i> 10 Years</div>
+                            <div class="timeline-title">Lung Cancer Risk Cut in Half</div>
+                            <div class="timeline-description">Lung cancer risk drops by 50%. Risk of cancers of mouth, throat, esophagus, and bladder also decrease. Most smoking-related health risks improve significantly.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time"><i class="fas fa-heart"></i> 15 Years</div>
+                            <div class="timeline-title">Heart Disease Risk Returns to Normal</div>
+                            <div class="timeline-description">Heart disease risk is now the same as someone who has never smoked. You've significantly increased your life expectancy.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.1); margin-top: 50px;">
+                <h2 style="color: var(--success); margin-bottom: 20px;"><i class="fas fa-check-circle"></i> The Healing Power of Your Body</h2>
+                <p style="font-size: 1.1em; color: #666; margin-bottom: 20px; line-height: 1.8;">Your body is remarkable. It wants to heal. Even after years of smoking, quitting starts an immediate recovery process. The longer you stay quit, the more your health improves. Most improvements are permanent!</p>
+                <p style="color: #999; font-weight: 600;">Every day without smoking is a victory for your health!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation and Page Management
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                if (pageId === 'results' && targetPage.classList.contains('hidden')) {
+                    return; // Don't navigate to results unless it's been populated
+                }
+                targetPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update active nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Slider synchronization
+        const cigInput = document.getElementById('cigarettesPerDay');
+        const cigSlider = document.getElementById('cigSlider');
+        const cigDisplay = document.getElementById('cigDisplayValue');
+
+        const yearInput = document.getElementById('yearsSmoked');
+        const yearSlider = document.getElementById('yearSlider');
+        const yearDisplay = document.getElementById('yearDisplayValue');
+
+        if (cigInput && cigSlider) {
+            cigInput.addEventListener('input', (e) => {
+                cigSlider.value = e.target.value;
+                cigDisplay.textContent = e.target.value;
+            });
+
+            cigSlider.addEventListener('input', (e) => {
+                cigInput.value = e.target.value;
+                cigDisplay.textContent = e.target.value;
+            });
+        }
+
+        if (yearInput && yearSlider) {
+            yearInput.addEventListener('input', (e) => {
+                yearSlider.value = e.target.value;
+                yearDisplay.textContent = parseFloat(e.target.value).toFixed(1);
+            });
+
+            yearSlider.addEventListener('input', (e) => {
+                yearInput.value = e.target.value;
+                yearDisplay.textContent = parseFloat(e.target.value).toFixed(1);
+            });
+        }
+
+        // Calculate Impact Function
+        function calculateImpact() {
+            const cigs = parseFloat(document.getElementById('cigarettesPerDay').value);
+            const years = parseFloat(document.getElementById('yearsSmoked').value);
+            const age = parseInt(document.getElementById('age').value);
+
+            if (!cigs || !years || !age) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculations
+            const packYears = ((cigs / 20) * years).toFixed(2);
+            const totalCigs = Math.round(cigs * years * 365.25);
+            const fev1Loss = Math.round(packYears * 50);
+
+            // Risk Assessment
+            let copdRisk, copdRiskClass, cancerRisk, cancerRiskClass, healthScore;
+
+            if (packYears < 10) {
+                copdRisk = 'Moderate';
+                copdRiskClass = 'risk-medium';
+                healthScore = '45/100 - Fair';
+            } else if (packYears < 20) {
+                copdRisk = 'High';
+                copdRiskClass = 'risk-high';
+                healthScore = '35/100 - Poor';
+            } else if (packYears < 30) {
+                copdRisk = 'Very High';
+                copdRiskClass = 'risk-high';
+                healthScore = '25/100 - Very Poor';
+            } else {
+                copdRisk = 'Critical';
+                copdRiskClass = 'risk-critical';
+                healthScore = '15/100 - Critical';
+            }
+
+            if (cigs < 5) {
+                cancerRisk = '5-8x higher';
+                cancerRiskClass = 'risk-medium';
+            } else if (cigs < 15) {
+                cancerRisk = '15-20x higher';
+                cancerRiskClass = 'risk-high';
+            } else if (cigs < 25) {
+                cancerRisk = '20-30x higher';
+                cancerRiskClass = 'risk-high';
+            } else {
+                cancerRisk = '30-40x higher';
+                cancerRiskClass = 'risk-critical';
+            }
+
+            // Update Results Page
+            document.getElementById('resultPackYears').textContent = packYears;
+            document.getElementById('resultPackYearsDesc').textContent = packYears < 10 ? 'Cumulative smoking exposure - Early damage stage' : 'Cumulative smoking exposure - Advanced damage';
+            document.getElementById('packYearsBadge').textContent = packYears + ' pack-years';
+            document.getElementById('packYearsBadge').className = 'risk-badge ' + copdRiskClass;
+
+            document.getElementById('resultTotalCigs').textContent = totalCigs.toLocaleString();
+            document.getElementById('resultTotalCigsDesc').textContent = `Approximately ${(totalCigs / 365.25).toFixed(0)} cigarettes per day`;
+
+            document.getElementById('resultFEV1').textContent = fev1Loss + ' mL';
+            document.getElementById('resultFEV1Desc').textContent = `Estimated ${(fev1Loss / 5000 * 100).toFixed(1)}% of normal lung capacity`;
+
+            document.getElementById('resultCOPDLevel').textContent = copdRisk;
+            document.getElementById('resultCOPDDesc').textContent = `Pack-years: ${packYears}`;
+            document.getElementById('copdBadge').textContent = copdRisk;
+            document.getElementById('copdBadge').className = 'risk-badge ' + copdRiskClass;
+
+            document.getElementById('resultCancerLevel').textContent = cancerRisk;
+            document.getElementById('resultCancerDesc').textContent = 'Than non-smokers';
+            document.getElementById('cancerBadge').textContent = cancerRisk;
+            document.getElementById('cancerBadge').className = 'risk-badge ' + cancerRiskClass;
+
+            document.getElementById('resultHealthScore').textContent = healthScore;
+            document.getElementById('resultHealthDesc').textContent = 'Overall health condition assessment';
+
+            // Show results page
+            const resultsPage = document.getElementById('results');
+            resultsPage.classList.remove('hidden');
+            navigateTo('results');
+        }
+
+        // Enter key support
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && document.getElementById('calculator').classList.contains('active')) {
+                calculateImpact();
+            }
+        });
+
+        // Mobile menu (placeholder for future expansion)
+        document.querySelector('.mobile-menu-btn')?.addEventListener('click', () => {
+            console.log('Mobile menu clicked');
+        });
+    </script>
+</body>
+</html>
